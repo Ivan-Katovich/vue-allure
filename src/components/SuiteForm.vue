@@ -38,6 +38,8 @@
         },
         data() {
             return {
+                smartResults: {},
+                smartTime: {},
                 options: {
                     labels: [' passed', ' failed', ' skipped'],
                     colors:['#336600', '#800000', '#7c7e7a'],
@@ -100,7 +102,8 @@
                 time: {
                     start: null,
                     duration: null
-                }
+                },
+                waitData: null
             }
         },
         components: {
@@ -109,12 +112,12 @@
         methods: {
             async organizeData() {
                 const summary = await getSummary(this.suite);
-                const smartResults = {
+                this.smartResults = {
                     passed: summary.statistic.passed,
                     failed: summary.statistic.failed,
                     skipped: summary.statistic.skipped,
                 };
-                const smartTime = {
+                this.smartTime = {
                     start: moment.utc(summary.time.start).format('MM/DD/YYYY HH:mm:ss'),
                     duration: {
                         h: moment.duration(summary.time.duration).hours(),
@@ -122,14 +125,22 @@
                         s: moment.duration(summary.time.duration).seconds(),
                     }
                 };
-                this.options.labels = Object.keys(smartResults);
-                this.series = Object.values(smartResults);
-                this.time.start = smartTime.start;
-                this.time.duration = `${smartTime.duration.h}h ${smartTime.duration.m}m ${smartTime.duration.s}s`
+            },
+            applyData() {
+                this.options.labels = Object.keys(this.smartResults);
+                this.series = Object.values(this.smartResults);
+                this.time.start = this.smartTime.start;
+                this.time.duration = `${this.smartTime.duration.h}h ${this.smartTime.duration.m}m ${this.smartTime.duration.s}s`
             }
         },
-        async created() {
-            await this.organizeData();
+        created() {
+            this.waitData = this.organizeData();
+        },
+        mounted() {
+            this.waitData
+                .then(() => {
+                    this.applyData();
+                });
         }
     }
 </script>
