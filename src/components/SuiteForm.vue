@@ -27,7 +27,6 @@
 
     export default {
         name: 'SuiteForm',
-        // props: ['suite', 'title'],
         props: {
             suite: {
                 type: String
@@ -40,8 +39,8 @@
         data() {
             return {
                 options: {
-                    labels: [],
-                    colors:['#33cc33', '#ff0000', '#7c7e7a'],
+                    labels: [' passed', ' failed', ' skipped'],
+                    colors:['#336600', '#800000', '#7c7e7a'],
                     legend: {
                         position: 'right',
                         offsetY: 0,
@@ -104,28 +103,33 @@
                 }
             }
         },
-        async mounted() {
-            const summary = await getSummary(this.suite);
-            const smartResults = {
-                passed: summary.statistic.passed,
-                failed: summary.statistic.failed,
-                skipped: summary.statistic.skipped,
-            };
-            const smartTime = {
-                start: moment.utc(summary.time.start).format('MM/DD/YYYY HH:mm:ss'),
-                duration: {
-                    h: moment.duration(summary.time.duration).hours(),
-                    m: moment.duration(summary.time.duration).minutes(),
-                    s: moment.duration(summary.time.duration).seconds(),
-                }
-            };
-            this.options.labels = Object.keys(smartResults);
-            this.series = Object.values(smartResults);
-            this.time.start = smartTime.start;
-            this.time.duration = `${smartTime.duration.h}h ${smartTime.duration.m}m ${smartTime.duration.s}s`
-        },
         components: {
             apexchart: VueApexCharts
+        },
+        methods: {
+            async organizeData() {
+                const summary = await getSummary(this.suite);
+                const smartResults = {
+                    passed: summary.statistic.passed,
+                    failed: summary.statistic.failed,
+                    skipped: summary.statistic.skipped,
+                };
+                const smartTime = {
+                    start: moment.utc(summary.time.start).format('MM/DD/YYYY HH:mm:ss'),
+                    duration: {
+                        h: moment.duration(summary.time.duration).hours(),
+                        m: moment.duration(summary.time.duration).minutes(),
+                        s: moment.duration(summary.time.duration).seconds(),
+                    }
+                };
+                this.options.labels = Object.keys(smartResults);
+                this.series = Object.values(smartResults);
+                this.time.start = smartTime.start;
+                this.time.duration = `${smartTime.duration.h}h ${smartTime.duration.m}m ${smartTime.duration.s}s`
+            }
+        },
+        async created() {
+            await this.organizeData();
         }
     }
 </script>
@@ -139,6 +143,7 @@
     .frame {
         height: 80px;
         text-align: center;
+        color: #373d3f;
     }
     .box {
         height: 100%;
