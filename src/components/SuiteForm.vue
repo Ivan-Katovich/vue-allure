@@ -12,7 +12,7 @@
                 <h1>Duration: {{time.duration}}</h1>
             </div>
             <div class="redirect">
-                <a href="/smoke/">
+                <a :href="pathToAllure" >
                     <img class="logo" src="../assets/allure.png" alt="Allure">
                 </a>
             </div>
@@ -38,6 +38,7 @@
         },
         data() {
             return {
+                pathToAllure: `${process.env.BASE_URL}${this.suite}/`,
                 smartResults: {},
                 smartTime: {},
                 options: {
@@ -134,6 +135,7 @@
             }
         },
         created() {
+            console.log(process.env.BASE_URL);
             this.waitData = this.organizeData();
         },
         mounted() {
