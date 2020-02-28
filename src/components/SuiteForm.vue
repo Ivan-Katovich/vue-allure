@@ -8,7 +8,7 @@
         </div>
         <div class="time frame">
             <div class="box">
-                <h1>Started: {{time.start}}</h1>
+                <h1>Start: {{time.start}}</h1>
                 <h1>Duration: {{time.duration}}</h1>
             </div>
             <div class="redirect">
@@ -73,7 +73,7 @@
                                 labels: {
                                     show: true,
                                     total: {
-                                        label: 'Total TCs amount',
+                                        label: 'Total TCs run',
                                         showAlways: true,
                                         show: true,
                                         fontSize: '150%',
@@ -119,7 +119,7 @@
                     skipped: summary.statistic.skipped,
                 };
                 this.smartTime = {
-                    start: moment.utc(summary.time.start).format('MM/DD/YYYY HH:mm:ss'),
+                    start: moment(summary.time.start).format('MM/DD/YYYY HH:mm:ss (UTC Z)'),
                     duration: {
                         h: moment.duration(summary.time.duration).hours(),
                         m: moment.duration(summary.time.duration).minutes(),
@@ -160,10 +160,10 @@
     }
     .box {
         height: 100%;
-        width: 70%;
+        width: 80%;
         float: left;
         text-align: left;
-        font-size: 12px;
+        font-size: 10px;
     }
     .title {
         font-size: 18px;
