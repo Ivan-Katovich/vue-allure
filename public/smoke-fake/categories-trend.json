@@ -1,0 +1,114 @@
+[ {
+  "data" : {
+    "Selector issues" : 3,
+    "Product defects" : 10,
+    "[IPDP-11502] Authorization - Unexpected message" : 2,
+    "Assertion issues" : 5
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 4,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 4,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 4,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 2,
+    "Product defects" : 5,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 4,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 4,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 5,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 5,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 5,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 5,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Selector issues" : 1,
+    "Product defects" : 4,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Product defects" : 2,
+    "Assertion issues" : 1
+  }
+}, {
+  "data" : {
+    "Product defects" : 2,
+    "Assertion issues" : 1
+  }
+}, {
+  "data" : {
+    "Product defects" : 3,
+    "Assertion issues" : 1
+  }
+}, {
+  "data" : {
+    "Product defects" : 3,
+    "Assertion issues" : 2
+  }
+}, {
+  "data" : {
+    "Product defects" : 2,
+    "Assertion issues" : 1
+  }
+}, {
+  "data" : {
+    "Product defects" : 3,
+    "Assertion issues" : 1
+  }
+}, {
+  "data" : {
+    "Product defects" : 3,
+    "Assertion issues" : 1
+  }
+}, {
+  "data" : {
+    "Product defects" : 3,
+    "Assertion issues" : 1
+  }
+} ]

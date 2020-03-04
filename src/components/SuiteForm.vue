@@ -4,7 +4,7 @@
             <h1>{{title}}</h1>
         </div>
         <div class="chart">
-            <apexchart :options="options" :series="series"></apexchart>
+            <apexchart :options="chartOptions" :series="chartSeries"></apexchart>
         </div>
         <div class="time frame">
             <div class="box">
@@ -17,13 +17,21 @@
                 </a>
             </div>
         </div>
+        <svg class="border">
+            <rect class="line" />
+        </svg>
+        <div class="categories">
+            <div id="chart" class="chart">
+                <apexchart :options="categoryOptions" :series="categorySeries"></apexchart>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
     import VueApexCharts from 'vue-apexcharts'
     import moment from 'moment'
-    import { getSummary } from '../support/allureDataGetter';
+    import { getSummary, getCategories } from '../support/allureDataGetter';
 
     export default {
         name: 'SuiteForm',
@@ -41,7 +49,10 @@
                 pathToAllure: `${process.env.BASE_URL}${this.suite}/`,
                 smartResults: {},
                 smartTime: {},
-                options: {
+                mandatoryCategories: ['Product defects','Assertion issues','Selector issues'],
+                smartCategories: {},
+                chartSeries: [],
+                chartOptions: {
                     labels: [' passed', ' failed', ' skipped'],
                     colors:['#336600', '#800000', '#7c7e7a'],
                     legend: {
@@ -63,7 +74,7 @@
                         },
                     },
                     chart: {
-                        width: 500,
+                        id: 'statistic',
                         type: 'donut',
                     },
                     plotOptions: {
@@ -99,7 +110,50 @@
                         }
                     }]
                 },
-                series: [],
+                categorySeries: [{name: 'defects', data: []}],
+                categoryOptions: {
+                    chart: {
+                        id: 'defects',
+                        type: 'bar',
+                        height: 350
+                    },
+                    title: {
+                        text: 'Defects categories',
+                        align: 'center',
+                        floating: true,
+                        offsetY: -7,
+                        style: {
+                            fontSize:  '20px',
+                            fontWeight:  'bold',
+                            fontFamily:  undefined,
+                            color:  '#373d3f'
+                        },
+                    },
+                    colors: ['#800000'],
+                    plotOptions: {
+                        bar: {
+                            horizontal: true,
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true
+                    },
+                    yaxis: {
+                        labels: {
+                            style: {
+                                fontSize: '14px'
+                            }
+                        }
+                    },
+                    xaxis: {
+                        categories: [],
+                        labels: {
+                            style: {
+                                fontSize: '14px'
+                            }
+                        }
+                    }
+                },
                 time: {
                     start: null,
                     duration: null
@@ -113,6 +167,7 @@
         methods: {
             async organizeData() {
                 const summary = await getSummary(this.suite);
+                const categories = await getCategories(this.suite);
                 this.smartResults = {
                     passed: summary.statistic.passed,
                     failed: summary.statistic.failed,
@@ -126,16 +181,29 @@
                         s: moment.duration(summary.time.duration).seconds(),
                     }
                 };
+                for (let category of this.mandatoryCategories) {
+                    this.smartCategories[category] = categories[category] ? categories[category] : 0;
+                    delete categories[category];
+                }
+                this.smartCategories = {...this.smartCategories, ...categories};
             },
             applyData() {
-                this.options.labels = Object.keys(this.smartResults);
-                this.series = Object.values(this.smartResults);
+                // this.chartOptions.labels = Object.keys(this.smartResults);
+                this.chartOptions = {...this.chartOptions, ...{
+                    labels: Object.keys(this.smartResults)
+                    }}
+                this.chartSeries = Object.values(this.smartResults);
                 this.time.start = this.smartTime.start;
                 this.time.duration = `${this.smartTime.duration.h}h ${this.smartTime.duration.m}m ${this.smartTime.duration.s}s`
+                this.categorySeries[0].data = Object.values(this.smartCategories);
+                this.categoryOptions = {...this.categoryOptions, ... {
+                    xaxis: {
+                        categories: Object.keys(this.smartCategories)
+                    }
+                    }};
             }
         },
-        created() {
-            console.log(process.env.BASE_URL);
+        async created() {
             this.waitData = this.organizeData();
         },
         mounted() {
@@ -177,5 +245,16 @@
     .logo {
         width: 100%;
         height: 100%;
+    }
+    .border{
+        height: 2px;
+        width: 93%;
+        padding: 20px;
+        color: #373d3f;
+    }
+    .line {
+        fill: #373d3f;
+        width: 100%;
+        height: 2px;
     }
 </style>
