@@ -12,11 +12,11 @@ export function getSummary(suite) {
 
 export function getCategories(suite) {
     const url = process.env.NODE_ENV === 'production' ?
-        `${process.env.BASE_URL}${suite}/widgets/categories-trend.json` :
-        `${process.env.BASE_URL}${suite}-fake/categories-trend.json`;
+        `${process.env.BASE_URL}${suite}/widgets/categories.json` :
+        `${process.env.BASE_URL}${suite}-fake/categories.json`;
     return axios.get(url)
         .then((res) => {
-            return res.data[0].data;
+            return res.data.items;
         })
 }
 

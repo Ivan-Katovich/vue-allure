@@ -50,7 +50,7 @@
                 smartResults: {},
                 smartTime: {},
                 mandatoryCategories: ['Product defects','Assertion issues','Selector issues'],
-                smartCategories: {},
+                smartCategories: [],
                 chartSeries: [],
                 chartOptions: {
                     labels: [' passed', ' failed', ' skipped'],
@@ -139,6 +139,7 @@
                         enabled: true
                     },
                     yaxis: {
+                        forceNiceScale: true,
                         labels: {
                             style: {
                                 fontSize: '14px'
@@ -168,6 +169,7 @@
             async organizeData() {
                 const summary = await getSummary(this.suite);
                 const categories = await getCategories(this.suite);
+                console.log(categories);
                 this.smartResults = {
                     passed: summary.statistic.passed,
                     failed: summary.statistic.failed,
@@ -181,11 +183,7 @@
                         s: moment.duration(summary.time.duration).seconds(),
                     }
                 };
-                for (let category of this.mandatoryCategories) {
-                    this.smartCategories[category] = categories[category] ? categories[category] : 0;
-                    delete categories[category];
-                }
-                this.smartCategories = {...this.smartCategories, ...categories};
+                this.smartCategories = categories;
             },
             applyData() {
                 // this.chartOptions.labels = Object.keys(this.smartResults);
@@ -195,10 +193,10 @@
                 this.chartSeries = Object.values(this.smartResults);
                 this.time.start = this.smartTime.start;
                 this.time.duration = `${this.smartTime.duration.h}h ${this.smartTime.duration.m}m ${this.smartTime.duration.s}s`
-                this.categorySeries[0].data = Object.values(this.smartCategories);
+                this.categorySeries[0].data = this.smartCategories.map((category) => category.statistic.total);
                 this.categoryOptions = {...this.categoryOptions, ... {
                     xaxis: {
-                        categories: Object.keys(this.smartCategories)
+                        categories: this.smartCategories.map((category) => category.name)
                     }
                     }};
             }

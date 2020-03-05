@@ -1,0 +1,48 @@
+{
+  "total" : 4,
+  "items" : [ {
+    "uid" : "8fb3a91ba5aaf9de24cc8a92edc82b5d",
+    "name" : "Product defects",
+    "statistic" : {
+      "failed" : 7,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 0,
+      "unknown" : 0,
+      "total" : 7
+    }
+  }, {
+    "uid" : "ad3cf989c243b17643a4f288cf6a1a23",
+    "name" : "Assertion issues",
+    "statistic" : {
+      "failed" : 3,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 0,
+      "unknown" : 0,
+      "total" : 3
+    }
+  }, {
+    "uid" : "418fee1a0052653077f38f05d8c4181a",
+    "name" : "Selector issues",
+    "statistic" : {
+      "failed" : 1,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 0,
+      "unknown" : 0,
+      "total" : 1
+    }
+  }, {
+    "uid" : "7325d77faebb723eeca20be567533da3",
+    "name" : "[IPDP-11502] Authorization - Unexpected message",
+    "statistic" : {
+      "failed" : 1,
+      "broken" : 0,
+      "skipped" : 0,
+      "passed" : 0,
+      "unknown" : 0,
+      "total" : 1
+    }
+  } ]
+}
