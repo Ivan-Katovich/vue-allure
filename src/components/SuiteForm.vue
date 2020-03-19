@@ -9,6 +9,7 @@
         <div class="time frame">
             <div class="box">
                 <h1>Start: {{time.start}}</h1>
+                <h1>Ago: {{time.ago}}</h1>
                 <h1>Duration: {{time.duration}}</h1>
             </div>
             <div class="redirect">
@@ -157,6 +158,7 @@
                 },
                 time: {
                     start: null,
+                    ago: null,
                     duration: null
                 },
                 waitData: null
@@ -177,6 +179,11 @@
                 };
                 this.smartTime = {
                     start: moment(summary.time.start).format('MM/DD/YYYY HH:mm:ss (UTC Z)'),
+                    ago: {
+                        d: moment.duration(parseInt(moment().format('x')) - summary.time.start).days(),
+                        h: moment.duration(parseInt(moment().format('x')) - summary.time.start).hours(),
+                        m: moment.duration(parseInt(moment().format('x')) - summary.time.start).minutes(),
+                    },
                     duration: {
                         h: moment.duration(summary.time.duration).hours(),
                         m: moment.duration(summary.time.duration).minutes(),
@@ -186,13 +193,13 @@
                 this.smartCategories = categories;
             },
             applyData() {
-                // this.chartOptions.labels = Object.keys(this.smartResults);
                 this.chartOptions = {...this.chartOptions, ...{
                     labels: Object.keys(this.smartResults)
-                    }}
+                    }};
                 this.chartSeries = Object.values(this.smartResults);
                 this.time.start = this.smartTime.start;
-                this.time.duration = `${this.smartTime.duration.h}h ${this.smartTime.duration.m}m ${this.smartTime.duration.s}s`
+                this.time.ago = `${this.smartTime.ago.d}d ${this.smartTime.ago.h}h ${this.smartTime.ago.m}m`;
+                this.time.duration = `${this.smartTime.duration.h}h ${this.smartTime.duration.m}m ${this.smartTime.duration.s}s`;
                 this.categorySeries[0].data = this.smartCategories.map((category) => category.statistic.total);
                 this.categoryOptions = {...this.categoryOptions, ... {
                     xaxis: {
@@ -220,7 +227,7 @@
         margin-right: auto;
     }
     .frame {
-        height: 80px;
+        height: 100px;
         text-align: center;
         color: #373d3f;
     }
@@ -237,7 +244,7 @@
     .redirect {
         float: right;
         text-align: center;
-        width: 12%;
+        width: 15%;
         height: 100%
     }
     .logo {
