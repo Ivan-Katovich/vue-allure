@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="title">
-            <h1 class="center">{{title}} - {{env.values[0]}}</h1>
+            <h1 class="center" v-if="env.values">{{title}} - {{env.values[0]}}</h1>
         </div>
         <div class="chart">
             <apexchart :options="chartOptions" :series="chartSeries"></apexchart>
@@ -54,7 +54,7 @@
                 pathToAllure: `${process.env.BASE_URL}${this.suite}/`,
                 smartResults: {},
                 smartTime: {},
-                smartInfo: {},
+                smartInfo: [],
                 smartCategories: [],
                 chartSeries: [],
                 chartOptions: {
@@ -193,7 +193,6 @@
                     }
                 };
                 this.smartCategories = categories;
-                this.env = this.smartInfo.find((i) => i.name === 'Environment');
             },
             applyData() {
                 this.chartOptions = {...this.chartOptions, ...{
@@ -205,6 +204,7 @@
                     xaxis: {
                         categories: this.smartCategories.map((category) => category.name)
                     }}};
+                this.env = this.smartInfo.find((i) => i.name === 'Environment');
             }
         },
         async created() {

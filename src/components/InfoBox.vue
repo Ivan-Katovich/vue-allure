@@ -1,5 +1,5 @@
 <template>
-    <div class="info-box">
+    <div class="info-box" v-if="smartInfo.length">
         <h1 v-for="item in smartInfo" :key="item.name">{{item.name}}: {{item.values[0]}}</h1>
     </div>
 </template>

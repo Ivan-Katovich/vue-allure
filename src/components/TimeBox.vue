@@ -1,8 +1,8 @@
 <template>
     <div class="time-box">
-        <h1>Start: {{smartTime.start}}</h1>
-        <h1>Ago: {{smartTime.ago.d}}d {{smartTime.ago.h}}h {{smartTime.ago.m}}m</h1>
-        <h1>Duration: {{smartTime.duration.h}}h {{smartTime.duration.m}}m {{smartTime.duration.s}}s</h1>
+        <h1 v-if="smartTime.start">Start: {{smartTime.start}}</h1>
+        <h1 v-if="smartTime.ago">Ago: {{smartTime.ago.d}}d {{smartTime.ago.h}}h {{smartTime.ago.m}}m</h1>
+        <h1 v-if="smartTime.duration">Duration: {{smartTime.duration.h}}h {{smartTime.duration.m}}m {{smartTime.duration.s}}s</h1>
     </div>
 </template>
 
