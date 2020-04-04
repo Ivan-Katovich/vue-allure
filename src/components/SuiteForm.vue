@@ -7,11 +7,7 @@
             <apexchart :options="chartOptions" :series="chartSeries"></apexchart>
         </div>
         <div class="time frame">
-            <div class="time-box">
-                <h1>Start: {{time.start}}</h1>
-                <h1>Ago: {{time.ago}}</h1>
-                <h1>Duration: {{time.duration}}</h1>
-            </div>
+            <time-box :smart-time="this.smartTime"/>
             <div class="redirect">
                 <a :href="pathToAllure" >
                     <img class="logo" src="../assets/allure.png" alt="Allure">
@@ -22,9 +18,7 @@
             <rect class="line" />
         </svg>
         <div class="info frame">
-            <div class="info-box">
-                <h1 v-for="item in smartInfo" :key="item.name">{{item.name}}: {{item.values[0]}}</h1>
-            </div>
+            <info-box :smart-info="this.smartInfo"/>
         </div>
         <svg class="border">
             <rect class="line" />
@@ -38,8 +32,10 @@
 </template>
 
 <script>
-    import VueApexCharts from 'vue-apexcharts'
-    import moment from 'moment'
+    import VueApexCharts from 'vue-apexcharts';
+    import TimeBox from './TimeBox';
+    import InfoBox from './InfoBox';
+    import moment from 'moment';
     import {getSummary, getCategories, getEnvInfo} from '../support/allureDataGetter';
 
     export default {
@@ -59,7 +55,6 @@
                 smartResults: {},
                 smartTime: {},
                 smartInfo: {},
-                mandatoryCategories: ['Product defects','Assertion issues','Selector issues'],
                 smartCategories: [],
                 chartSeries: [],
                 chartOptions: {
@@ -165,17 +160,14 @@
                         }
                     }
                 },
-                time: {
-                    start: null,
-                    ago: null,
-                    duration: null
-                },
                 env: {},
                 waitData: null
             }
         },
         components: {
-            apexchart: VueApexCharts
+            apexchart: VueApexCharts,
+            TimeBox,
+            InfoBox
         },
         methods: {
             async organizeData() {
@@ -208,9 +200,6 @@
                     labels: Object.keys(this.smartResults)
                     }};
                 this.chartSeries = Object.values(this.smartResults);
-                this.time.start = this.smartTime.start;
-                this.time.ago = `${this.smartTime.ago.d}d ${this.smartTime.ago.h}h ${this.smartTime.ago.m}m`;
-                this.time.duration = `${this.smartTime.duration.h}h ${this.smartTime.duration.m}m ${this.smartTime.duration.s}s`;
                 this.categorySeries[0].data = this.smartCategories.map((category) => category.statistic.total);
                 this.categoryOptions = {...this.categoryOptions, ... {
                     xaxis: {
@@ -250,20 +239,6 @@
     .time {
         height: 100%;
         width: 100%;
-    }
-    .time-box {
-        height: 100%;
-        width: 80%;
-        float: left;
-        text-align: left;
-        font-size: 10px;
-    }
-    .info-box {
-        height: 100%;
-        width: 100%;
-        float: left;
-        text-align: left;
-        font-size: 10px;
     }
     .title {
         font-size: 18px;
