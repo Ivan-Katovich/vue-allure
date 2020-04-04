@@ -17,7 +17,7 @@
         data() {
             return {
                 suites: ['smoke', 'regression'],
-                titles: ['Smoke Test Automation Suite', 'Regression Test Automation Suite']
+                titles: ['Smoke', 'Regression']
             }
         },
         components: {

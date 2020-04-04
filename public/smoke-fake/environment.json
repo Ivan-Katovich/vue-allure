@@ -1,0 +1,13 @@
+[ {
+  "values" : [ "regression" ],
+  "name" : "Suite"
+}, {
+  "values" : [ "TestA_IVN@cpaglobal.com" ],
+  "name" : "User"
+}, {
+  "values" : [ "DEV Test Automation smoke" ],
+  "name" : "Environment"
+}, {
+  "values" : [ "chrome" ],
+  "name" : "Browser"
+} ]
