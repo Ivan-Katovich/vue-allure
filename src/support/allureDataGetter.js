@@ -20,3 +20,13 @@ export function getCategories(suite) {
         })
 }
 
+export function getEnvInfo(suite) {
+    const url = process.env.NODE_ENV === 'production' ?
+        `${process.env.BASE_URL}${suite}/widgets/environment.json` :
+        `${process.env.BASE_URL}${suite}-fake/environment.json`;
+    return axios.get(url)
+        .then((res) => {
+            return res.data;
+        })
+}
+

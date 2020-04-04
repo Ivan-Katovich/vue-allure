@@ -1,13 +1,13 @@
 <template>
     <div>
-        <div class="title frame">
-            <h1>{{title}}</h1>
+        <div class="title">
+            <h1 class="center">{{title}} - {{env.values[0]}}</h1>
         </div>
         <div class="chart">
             <apexchart :options="chartOptions" :series="chartSeries"></apexchart>
         </div>
         <div class="time frame">
-            <div class="box">
+            <div class="time-box">
                 <h1>Start: {{time.start}}</h1>
                 <h1>Ago: {{time.ago}}</h1>
                 <h1>Duration: {{time.duration}}</h1>
@@ -16,6 +16,14 @@
                 <a :href="pathToAllure" >
                     <img class="logo" src="../assets/allure.png" alt="Allure">
                 </a>
+            </div>
+        </div>
+        <svg class="border">
+            <rect class="line" />
+        </svg>
+        <div class="info frame">
+            <div class="info-box">
+                <h1 v-for="item in smartInfo" :key="item.name">{{item.name}}: {{item.values[0]}}</h1>
             </div>
         </div>
         <svg class="border">
@@ -32,7 +40,7 @@
 <script>
     import VueApexCharts from 'vue-apexcharts'
     import moment from 'moment'
-    import { getSummary, getCategories } from '../support/allureDataGetter';
+    import {getSummary, getCategories, getEnvInfo} from '../support/allureDataGetter';
 
     export default {
         name: 'SuiteForm',
@@ -50,6 +58,7 @@
                 pathToAllure: `${process.env.BASE_URL}${this.suite}/`,
                 smartResults: {},
                 smartTime: {},
+                smartInfo: {},
                 mandatoryCategories: ['Product defects','Assertion issues','Selector issues'],
                 smartCategories: [],
                 chartSeries: [],
@@ -161,6 +170,7 @@
                     ago: null,
                     duration: null
                 },
+                env: {},
                 waitData: null
             }
         },
@@ -171,7 +181,7 @@
             async organizeData() {
                 const summary = await getSummary(this.suite);
                 const categories = await getCategories(this.suite);
-                console.log(categories);
+                this.smartInfo = await getEnvInfo(this.suite);
                 this.smartResults = {
                     passed: summary.statistic.passed,
                     failed: summary.statistic.failed,
@@ -191,6 +201,7 @@
                     }
                 };
                 this.smartCategories = categories;
+                this.env = this.smartInfo.find((i) => i.name === 'Environment');
             },
             applyData() {
                 this.chartOptions = {...this.chartOptions, ...{
@@ -204,8 +215,7 @@
                 this.categoryOptions = {...this.categoryOptions, ... {
                     xaxis: {
                         categories: this.smartCategories.map((category) => category.name)
-                    }
-                    }};
+                    }}};
             }
         },
         async created() {
@@ -226,14 +236,31 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .frame {
+    .title {
         height: 100px;
         text-align: center;
         color: #373d3f;
     }
-    .box {
+    .frame {
+        height: 100px;
+        text-align: center;
+        color: #373d3f;
+        display: table;
+    }
+    .time {
+        height: 100%;
+        width: 100%;
+    }
+    .time-box {
         height: 100%;
         width: 80%;
+        float: left;
+        text-align: left;
+        font-size: 10px;
+    }
+    .info-box {
+        height: 100%;
+        width: 100%;
         float: left;
         text-align: left;
         font-size: 10px;
