@@ -1,5 +1,5 @@
 <template>
-    <div class="chart" v-if="this.series.length">
+    <div class="chart" v-if="series.length">
         <apexchart :options="options" :series="series"></apexchart>
     </div>
 </template>

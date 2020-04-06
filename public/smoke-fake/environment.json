@@ -5,7 +5,7 @@
   "values" : [ "TestA_IVN@cpaglobal.com" ],
   "name" : "User"
 }, {
-  "values" : [ "DEV Test Automation smoke" ],
+  "values" : [ "Pre-Sit" ],
   "name" : "Environment"
 }, {
   "values" : [ "chrome" ],

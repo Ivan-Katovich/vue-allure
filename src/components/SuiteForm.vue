@@ -1,13 +1,13 @@
 <template>
     <div>
         <div class="title">
-            <h1 class="center" v-if="env.values">{{title}} - {{env.values[0]}}</h1>
+            <h1 class="center" v-if="env.values">TA {{title}} - {{env.values[0]}} ({{client.values[0]}})</h1>
         </div>
         <div class="results">
-            <results-chart :smart-results="this.smartResults" :wait="this.waitData"/>
+            <results-chart :smart-results="smartResults" :wait="waitData"/>
         </div>
         <div class="time frame">
-            <time-box :smart-time="this.smartTime"/>
+            <time-box :smart-time="smartTime"/>
             <div class="redirect">
                 <a :href="pathToAllure" >
                     <img class="logo" src="../assets/allure.png" alt="Allure">
@@ -20,7 +20,7 @@
             </svg>
         </div>
         <div class="info frame">
-            <info-box :smart-info="this.smartInfo"/>
+            <info-box :smart-info="smartInfo"/>
         </div>
         <div>
             <svg class="border">
@@ -28,16 +28,16 @@
             </svg>
         </div>
         <div class="categories">
-            <category-chart :smart-categories="this.smartCategories" :wait="this.waitData"/>
+            <category-chart :smart-categories="smartCategories" :wait="waitData"/>
         </div>
     </div>
 </template>
 
 <script>
-    import TimeBox from './TimeBox';
-    import InfoBox from './InfoBox';
-    import CategoryChart from './CategoryChart';
-    import ResultsChart from './ResultsChart';
+    import TimeBox from './boxes/TimeBox';
+    import InfoBox from './boxes/InfoBox';
+    import CategoryChart from './charts/CategoryChart';
+    import ResultsChart from './charts/ResultsChart';
     import moment from 'moment';
     import {getSummary, getCategories, getEnvInfo} from '../support/allureDataGetter';
 
@@ -59,7 +59,14 @@
                 smartTime: {},
                 smartInfo: [],
                 smartCategories: [],
-                env: {},
+                env: {
+                    values: [],
+                    name: null
+                },
+                client: {
+                    values: [],
+                    name: null
+                },
                 waitData: null
             }
         },
@@ -95,7 +102,8 @@
                 this.smartCategories = categories;
             },
             applyData() {
-                this.env = this.smartInfo.find((i) => i.name === 'Environment');
+                this.env = {...this.env, ...this.smartInfo.find((i) => i.name === 'Environment')};
+                this.client = {...this.client, ...this.smartInfo.find((i) => i.name === 'Client')};
             }
         },
         async created() {

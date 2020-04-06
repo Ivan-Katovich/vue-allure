@@ -5,8 +5,11 @@
   "values" : [ "TestA_IVN@cpaglobal.com" ],
   "name" : "User"
 }, {
-  "values" : [ "DEV Test Automation" ],
+  "values" : [ "DEV" ],
   "name" : "Environment"
+}, {
+  "values" : [ "ATDV" ],
+  "name" : "Client"
 }, {
   "values" : [ "chrome" ],
   "name" : "Browser"
