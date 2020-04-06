@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="title">
-            <h1 class="center" v-if="env.values">TA {{title}} - {{env.values[0]}} ({{client.values[0]}})</h1>
+            <h1 class="center" v-if="env.name">TA {{title}} - {{env.values[0]}} ({{client.values[0]}})</h1>
         </div>
         <div class="results">
             <results-chart :smart-results="smartResults" :wait="waitData"/>
